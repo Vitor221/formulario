@@ -8,38 +8,41 @@
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Nome:</label>
                         <div class="col">
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" v-model.lazy="form.nome">
                         </div>
                     </div>
+
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">E-mail:</label>
                         <div class="col">
-                            <input type="email" class="form-control">
+                            <input type="email" class="form-control" v-model="form.email">
                         </div>
                     </div>
+
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Senha:</label>
                         <div class="col">
-                            <input type="password" class="form-control">
+                            <input type="password" class="form-control" v-model.trim="form.senha">
                         </div>
                     </div>
+
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Idade:</label>
                         <div class="col">
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" v-model.number="form.idade">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Gênero:</label>
                         <div class="col">
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio">
+                                <input class="form-check-input" type="radio" value="Feminino" v-model="form.genero">
                                 <label class="form-check-label">
                                     Feminino
                                 </label>
                             </div>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio">
+                                <input class="form-check-input" type="radio" value="Masculino" v-model="form.genero">
                                 <label class="form-check-label">
                                     Masculino
                                 </label>
@@ -51,7 +54,13 @@
                         <label class="col-3 col-form-label">Licença:</label>
                         <div class="col">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox">
+                                <input 
+                                    class="form-check-input" 
+                                    type="checkbox" 
+                                    v-model="form.licenca"
+                                    true-value="SIM"
+                                    false-value="NÃO"
+                                    >
                                 <label class="form-check-label">Li e aceito os termos</label>
                             </div>
                         </div>
@@ -61,25 +70,25 @@
                         <label class="col-3 col-form-label">Interesses:</label>
                         <div class="col">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="JavaScript" v-model="form.interesses">
                                 <label class="form-check-label">
                                     JavaScriot
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="VueJS" v-model="form.interesses">
                                 <label class="form-check-label">
                                     VueJS
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="Angular" v-model="form.interesses">
                                 <label class="form-check-label">
                                     Angular
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" value="NodeJS" v-model="form.interesses">
                                 <label class="form-check-label">
                                     NodeJS
                                 </label>
@@ -89,38 +98,87 @@
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Telefone:</label>
                         <div class="col">
-                            <input type="tel" class="form-control" pattern="[0-9]{2} [0-9]{5}-[0-9]{4}">
+                            <input type="text" class="form-control" v-model="form.telefone" v-maska="'(##) #####-####'">
                             <small class="text-muted">Formato: 11 97777-5555</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CEP:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cep" v-maska="'#####-###'">
+                            <small class="text-muted">Formato: 00000-000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CPF:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cpf" v-maska="'###.###.###-##'">
+                            <small class="text-muted">Formato: 000.000.000-00</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">CNPJ:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cnpj" v-maska="'##.###.###/####-##'">
+                            <small class="text-muted">Formato: 00.000.000/0000-00</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Cartão de Crédito:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.cartaoDeCredito" v-maska="'#### #### #### ####'">
+                            <small class="text-muted">Formato: 0000 0000 0000 0000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Placa do Veículo</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.placaVeiculo" v-maska="'AAA-####'">
+                            <small class="text-muted">Formato: AAA-0000</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Placa do Veículo de Mercosul:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.placaVeiculoMercosul" v-maska="'AAA#A##'">
+                            <small class="text-muted">Formato: AAA0A00</small>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Número do RG:</label>
+                        <div class="col">
+                            <input type="text" class="form-control" v-model="form.rg" v-maska="'#*-X'">
+                            <small class="text-muted">Formato: Sem padrão</small>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Data:</label>
                         <div class="col">
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" v-model="form.data">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Data/hora local:</label>
                         <div class="col">
-                            <input type="datetime-local" class="form-control">
+                            <input type="datetime-local" class="form-control" v-model="form.dataHoraLocal">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Mês:</label>
                         <div class="col">
-                            <input type="month" class="form-control">
+                            <input type="month" class="form-control" v-model="form.mes">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Semana:</label>
                         <div class="col">
-                            <input type="week" class="form-control">
+                            <input type="week" class="form-control" v-model="form.semana">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Hora:</label>
                         <div class="col">
-                            <input type="time" class="form-control">
+                            <input type="time" class="form-control" v-model="form.hora">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -164,61 +222,85 @@
                 <span class="fs-4">ESTADO DO OBJETO</span>
                 <hr>
                 <div class="mb-5 row">
-                    <spam>Estado do objeto</spam>
+                    <span>{{ form }}</span>
                 </div>
 
                 <span class="fs-4">SAÍDA DE DADOS</span>
                 <hr>
                 <div class="mb-3 row">
-                    <spam>Nome:</spam>
+                    <span>Nome: {{ form.nome }} </span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>E-mail:</spam>
+                    <span>E-mail: {{ form.email }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Senha:</spam>
+                    <span>Senha: {{ form.senha }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Idade:</spam>
+                    <span>Idade: {{ form.idade }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Gênero:</spam>
+                    <span>Gênero: {{ form.genero }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Licença:</spam>
+                    <span>Licença: {{ form.licenca }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Interesses:</spam>
+                    <span>Interesses:</span>
+                    <ul>
+                        <li v-for="(interesse, index) in form.interesses" :key="index"> {{ interesse }} </li>
+                    </ul>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Telefone:</spam>
+                    <span>Telefone: {{ form.telefone }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Data:</spam>
+                    <span>CEP: {{ form.cep }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Data/hora local:</spam>
+                    <span>CPF: {{ form.cpf }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Mês:</spam>
+                    <span>CNPJ: {{ form.cnpj }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Semana:</spam>
+                    <span>Cartão de Crédito: {{ form.cartaoDeCredito }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Hora:</spam>
+                    <span>Placa do Veículo: {{ form.placaVeiculo }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Cor:</spam>
+                    <span>Placa do Veículo de Mercosul: {{ form.placaVeiculoMercosul }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Valor limite:</spam>
+                    <span>Número do RG: {{ form.rg   }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Escondido:</spam>
+                    <span>Data: {{ form.data }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <spam>Upload:</spam>
+                    <span>Data/hora local: {{ form.dataHoraLocal }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Mês: {{ form.mes }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Semana: {{ form.semana }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Hora: {{ form.hora }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Cor:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Valor limite:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Escondido:</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Upload:</span>
                 </div>  
             </div>
         </div>
@@ -229,6 +311,30 @@
 
 <script>
 export default {
-    name: 'Formulario'
+    name: 'Formulario',
+    data: () => ({
+        form: {
+            nome: 'Vitor',
+            email: 'vitor@email.com',
+            senha: '12345',
+            idade: 20,
+            licenca: 'NÃO',
+            interesses: ['VueJS', 'Angular'],
+            genero: 'Feminino',
+            telefone: '',
+            cep: '',
+            cpf: '',
+            cnpj: '',
+            cartaoDeCredito: '',
+            placaVeiculo: '',
+            placaVeiculoMercosul: '',
+            rg: '',
+            data: '',
+            dataHoraLocal: '',
+            mes: '',
+            semana: '',
+            hora: ''
+        }
+    })
 }
 </script>
