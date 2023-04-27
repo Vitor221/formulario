@@ -4,7 +4,8 @@
             <div class="col-6 bg-light">
                 <span class="fs-4">ENTRADA DE DADOS</span>
                 <hr>
-                <form>
+                <!-- <form @submit.prevent="enviar($event)"> -->
+                <form @reset.prevent="resetar()">
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Nome:</label>
                         <div class="col">
@@ -184,32 +185,54 @@
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Cor:</label>
                         <div class="col">
-                            <input type="color" class="form-color">
+                            <input type="color" class="form-color" v-model="form.cor">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Valor limite:</label>
                         <div class="col">
-                            <input type="range" class="form-range" min="0" max="100" step="1">
+                            <input type="range" class="form-range" min="0" max="100" step="1" v-model="form.alcance">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Escondido:</label>
                         <div class="col">
-                            <input type="hidden" class="form-control">
+                            <input type="hidden" class="form-control" v-model="form.escondido">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-3 col-form-label">Upload:</label>
                         <div class="col">
-                            <input type="file" class="form-control">
+                            <input type="file" class="form-control" multiple @change="selecionarArquivos($event)">
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Descrição:</label>
+                        <div class="col">
+                            <textarea class="form-control" rows="3" v-model="form.descricao"></textarea>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Cursos:</label>
+                        <div class="col">
+                            <select class="form-select" v-model="form.curso" >
+                                <option value="" disabled>Selecione uma opção</option>
+                                <option v-for="curso in cursos" :key="curso.id" :value="curso.id">{{ curso.curso }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-3 col-form-label">Avaliação:</label>
+                        <div class="col">
+                            <!-- <input-estrelas :numero-estrelas="5" @avaliar="form.avaliacao = $event"/> -->
+                            <input-estrelas :numero-estrelas="5" v-model:avaliar="form.avaliacao"/>
                         </div>
                     </div>
                     <hr>
                     <div class="mb-3 row">
                         <div class="col d-flex justify-content-between">
                             <button class="btn btn-secondary" type="reset">Limpar</button>
-                            <button class="btn btn-success" type="button">Enviar (btn)</button>
+                            <button class="btn btn-success" type="button" @click="enviar($event)">Enviar (btn)</button>
                             <button class="btn btn-success" type="submit">Enviar (submit)</button>
                         </div>                        
                     </div>
@@ -218,7 +241,7 @@
             </div>
 
             
-            <div class="col-6 text-white bg-secondary">
+            <div class="col-6 text-white bg-secondary" :style="'background-color:'+form.cor+'!important'">
                 <span class="fs-4">ESTADO DO OBJETO</span>
                 <hr>
                 <div class="mb-5 row">
@@ -273,10 +296,10 @@
                     <span>Placa do Veículo de Mercosul: {{ form.placaVeiculoMercosul }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Número do RG: {{ form.rg   }}</span>
+                    <span>Número do RG: {{ form.rg }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Data: {{ form.data }}</span>
+                    <span>Data: {{ form.data }} | {{ $moment(form.data).format('DD/MM/YYYY') }}</span>
                 </div>
                 <div class="mb-3 row">
                     <span>Data/hora local: {{ form.dataHoraLocal }}</span>
@@ -291,17 +314,31 @@
                     <span>Hora: {{ form.hora }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Cor:</span>
+                    <span>Cor: {{ form.cor }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Valor limite:</span>
+                    <span>Valor limite: {{ form.alcance }}</span>
                 </div>
                 <div class="mb-3 row">
-                    <span>Escondido:</span>
+                    <span>Escondido: {{ form.escondido }}</span>
                 </div>
                 <div class="mb-3 row">
                     <span>Upload:</span>
+                    <ul>
+                        <li v-for="(arquivo, index) in form.arquivos" :key="index">{{ arquivo.name }}</li>
+                    </ul>
                 </div>  
+                <div class="mb-3 row">
+                    <span>Descrição:</span>
+                    <!-- <pre>{{ form.descricao }}</pre> -->
+                    <div style="white-space: pre"> {{ form.descricao }} </div>
+                </div>
+                <div class="mb-3 row">
+                    <span>Curso: {{ form.curso }}</span>
+                </div>
+                <div class="mb-3 row">
+                    <span>Avaliação: {{ form.avaliacao }}</span>
+                </div>
             </div>
         </div>
 
@@ -310,10 +347,22 @@
 </template>
 
 <script>
+import InputEstrelas from './InputEstrelas.vue'
+
 export default {
+    components: {
+        InputEstrelas
+    },
     name: 'Formulario',
     data: () => ({
-        form: {
+        cursos: [
+            { id: 1, curso: 'Banco de Dados Relacionais'},
+            { id: 2, curso: 'Desenvolvimento Web Avançado com VueJS'},
+            { id: 3, curso: 'Desenvolvimento Web Avançado com Laravel'},
+            { id: 4, curso: 'Curso Completo do Desenvolvedor NodeJS e MongoDB'},
+        ],
+        form: {},
+        formEstadoInicial: {
             nome: 'Vitor',
             email: 'vitor@email.com',
             senha: '12345',
@@ -333,8 +382,35 @@ export default {
             dataHoraLocal: '',
             mes: '',
             semana: '',
-            hora: ''
+            hora: '',
+            cor: '#6c757d',
+            alcance: 5,
+            escondido: 'Esse input está escondido',
+            arquivos: {},
+            descricao: '',
+            curso: '',
+            avaliacao: 0
         }
-    })
+    }),
+    created() {
+        this.resetar()
+    },
+    methods: {
+        selecionarArquivos(event) {
+            // console.log(event.target.files)
+            this.form.arquivos = event.target.files
+        },
+        enviar(event) {
+            console.log(event)
+            console.log(this.form)
+
+            const formEnvio = Object.assign({}, this.form)
+
+            console.log(formEnvio)
+        },
+        resetar() {
+            this.form = Object.assign({}, this.formEstadoInicial)
+        }
+    }
 }
 </script>
